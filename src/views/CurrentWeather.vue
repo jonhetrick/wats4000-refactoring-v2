@@ -21,16 +21,11 @@
       <weather-summary
         v-bind:weatherData="weatherData.weather"
       ></weather-summary>
-      <dl>
-        <dt>Current Temp</dt>
-        <dd>{{ weatherData.main.temp }}&deg;F</dd>
-        <dt>Humidity</dt>
-        <dd>{{ weatherData.main.humidity }}%</dd>
-        <dt>High</dt>
-        <dd>{{ weatherData.main.temp_max }}&deg;F</dd>
-        <dt>Low</dt>
-        <dd>{{ weatherData.main.temp_min }}&deg;F</dd>
-      </dl>
+
+      <!-- Child component WeatherConditions -->
+      <weather-conditions
+        v-bind:conditions="weatherData.main"
+      ></weather-conditions>
     </div>
     <div v-else-if="errors.length > 0">
       <h2>There was an error fetching weather data.</h2>
@@ -47,6 +42,7 @@
 <script>
 import { API } from '@/common/api';
 import WeatherSummary from '@/components/WeatherSummary';
+import WeatherConditions from '@/components/WeatherConditions';
 
 export default {
   name: 'CurrentWeather',
@@ -71,7 +67,8 @@ export default {
       });
   },
   components: {
-    'weather-summary': WeatherSummary
+    'weather-summary': WeatherSummary,
+    'weather-conditions': WeatherConditions
   }
 };
 </script>
@@ -102,25 +99,6 @@ li {
 .weatherSummary {
   display: inline-block;
   width: 100px;
-}
-dl {
-  padding: 5px;
-  background: #e8e8e8;
-}
-dt {
-  float: left;
-  clear: left;
-  width: 120px;
-  text-align: right;
-  font-weight: bold;
-  color: blue;
-}
-dd {
-  margin: 0 0 0 130px;
-  padding: 0 0 0.5em 0;
-}
-dt::after {
-  content: ':';
 }
 a {
   color: #42b983;

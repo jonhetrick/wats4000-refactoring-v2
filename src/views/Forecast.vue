@@ -27,14 +27,11 @@
         <weather-summary
           v-bind:weatherData="forecast.weather"
         ></weather-summary>
-        <dl>
-          <dt>Humidity</dt>
-          <dd>{{ forecast.main.humidity }}%</dd>
-          <dt>High</dt>
-          <dd>{{ forecast.main.temp_max }}&deg;F</dd>
-          <dt>Low</dt>
-          <dd>{{ forecast.main.temp_min }}&deg;F</dd>
-        </dl>
+
+        <!-- Child component WeatherConditions -->
+        <weather-conditions
+          v-bind:conditions="forecast.main"
+        ></weather-conditions>
       </li>
     </ul>
     <div v-else-if="errors.length > 0">
@@ -52,6 +49,7 @@
 <script>
 import { API } from '@/common/api';
 import WeatherSummary from '@/components/WeatherSummary';
+import WeatherConditions from '@/components/WeatherConditions';
 
 export default {
   name: 'Forecast',
@@ -112,7 +110,8 @@ export default {
     }
   },
   components: {
-    'weather-summary': WeatherSummary
+    'weather-summary': WeatherSummary,
+    'weather-conditions': WeatherConditions
   }
 };
 </script>
@@ -148,24 +147,5 @@ a {
 .weatherSummary {
   display: inline-block;
   width: 100px;
-}
-dl {
-  padding: 5px;
-  background: #e8e8e8;
-}
-dt {
-  float: left;
-  clear: left;
-  width: 120px;
-  text-align: right;
-  font-weight: bold;
-  color: blue;
-}
-dd {
-  margin: 0 0 0 130px;
-  padding: 0 0 0.5em 0;
-}
-dt::after {
-  content: ':';
 }
 </style>

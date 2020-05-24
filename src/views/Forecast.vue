@@ -23,22 +23,10 @@
     <ul v-if="weatherData && errors.length === 0" class="forecast">
       <li v-for="(forecast, index) in weatherData.list" :key="index">
         <h3>{{ forecast.dt | formatDate }}</h3>
-        <!-- TODO: Make weather summary be in a child component. -->
-        <div
-          v-for="(weatherSummary, index) in forecast.weather"
-          :key="index"
-          class="weatherSummary"
-        >
-          <img
-            v-bind:src="
-              'http://openweathermap.org/img/w/' + weatherSummary.icon + '.png'
-            "
-            v-bind:alt="weatherSummary.main"
-          />
-          <br />
-          <b>{{ weatherSummary.main }}</b>
-        </div>
-        <!-- TODO: Make dl of weather data be in a child component. -->
+        <!-- Child component weather-summary -->
+        <weather-summary
+          v-bind:weatherData="forecast.weather"
+        ></weather-summary>
         <dl>
           <dt>Humidity</dt>
           <dd>{{ forecast.main.humidity }}%</dd>
@@ -63,6 +51,7 @@
 
 <script>
 import { API } from '@/common/api';
+import WeatherSummary from '@/components/WeatherSummary';
 
 export default {
   name: 'Forecast',
@@ -121,6 +110,9 @@ export default {
       //let year = date.getFullYear();
       return `${months[month]} ${daynum} @ ${hour}`;
     }
+  },
+  components: {
+    'weather-summary': WeatherSummary
   }
 };
 </script>

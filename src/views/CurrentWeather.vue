@@ -17,22 +17,10 @@
       >
     </p>
     <div v-if="weatherData && errors.length === 0">
-      <!-- TODO: Make weather summary be in a child component. -->
-      <div
-        v-for="(weatherSummary, index) in weatherData.weather"
-        :key="index"
-        class="weatherSummary"
-      >
-        <img
-          v-bind:src="
-            'http://openweathermap.org/img/w/' + weatherSummary.icon + '.png'
-          "
-          v-bind:alt="weatherSummary.main"
-        />
-        <br />
-        <b>{{ weatherSummary.main }}</b>
-      </div>
-      <!-- TODO: Make dl of weather data be in a child component. -->
+      <!-- Child component weather-summary -->
+      <weather-summary
+        v-bind:weatherData="weatherData.weather"
+      ></weather-summary>
       <dl>
         <dt>Current Temp</dt>
         <dd>{{ weatherData.main.temp }}&deg;F</dd>
@@ -58,6 +46,7 @@
 
 <script>
 import { API } from '@/common/api';
+import WeatherSummary from '@/components/WeatherSummary';
 
 export default {
   name: 'CurrentWeather',
@@ -80,6 +69,9 @@ export default {
       .catch(error => {
         this.errors.push(error);
       });
+  },
+  components: {
+    'weather-summary': WeatherSummary
   }
 };
 </script>

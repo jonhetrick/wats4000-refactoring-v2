@@ -18,22 +18,9 @@
           >
         </p>
 
-        <!-- TODO: Make weather summary be in a child component. -->
-        <div
-          v-for="(weatherSummary, index) in city.weather"
-          class="weatherSummary"
-          :key="index"
-        >
-          <img
-            v-bind:src="
-              'http://openweathermap.org/img/w/' + weatherSummary.icon + '.png'
-            "
-            v-bind:alt="weatherSummary.main"
-          />
-          <br />
-          <b>{{ weatherSummary.main }}</b>
-        </div>
-        <!-- TODO: Make dl of weather data be in a child component. -->
+        <!-- Child component weather-summary -->
+        <weather-summary v-bind:weatherData="city.weather"></weather-summary>
+
         <dl>
           <dt>Current Temp</dt>
           <dd>{{ city.main.temp }}&deg;F</dd>
@@ -57,6 +44,7 @@
 
 <script>
 import { API } from '@/common/api';
+import WeatherSummary from '@/components/WeatherSummary';
 
 export default {
   name: 'CitySearch',
@@ -81,6 +69,9 @@ export default {
           this.errors.push(error);
         });
     }
+  },
+  components: {
+    'weather-summary': WeatherSummary
   }
 };
 </script>
@@ -108,10 +99,6 @@ li {
   border: solid 1px #e8e8e8;
   padding: 10px;
   margin: 5px;
-}
-.weatherSummary {
-  display: inline-block;
-  width: 100px;
 }
 dl {
   padding: 5px;

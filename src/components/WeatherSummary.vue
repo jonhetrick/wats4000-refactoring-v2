@@ -2,7 +2,7 @@
   <div>
     <div
       v-for="weatherSummary in weatherData"
-      :key="weatherSummary"
+      :key="weatherSummary.main"
       class="weatherSummary"
     >
       <img
